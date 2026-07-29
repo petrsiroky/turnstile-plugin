@@ -1,0 +1,13 @@
+{% if turnstileEnabled and turnstileSiteKey %}
+    <div class="cf-turnstile my-3"
+         data-sitekey="{{ turnstileSiteKey }}"
+         data-theme="{{ turnstileTheme }}"
+         data-size="{{ turnstileSize }}"
+         {% if turnstileAction %}data-action="{{ turnstileAction }}"{% endif %}
+         {% if turnstileCallback %}data-callback="{{ turnstileCallback }}"{% endif %}
+         {% if turnstileExpiredCallback %}data-expired-callback="{{ turnstileExpiredCallback }}"{% endif %}
+         {% if turnstileErrorCallback %}data-error-callback="{{ turnstileErrorCallback }}"{% endif %}>
+    </div>
+{% elseif turnstileEnabled and not turnstileSiteKey %}
+    <!-- Cloudflare Turnstile: Site Key is missing in backend settings -->
+{% endif %}

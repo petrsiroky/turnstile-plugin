@@ -1,0 +1,14 @@
+{
+    "name": "stheme/turnstile-plugin",
+    "type": "october-plugin",
+    "description": "Cloudflare Turnstile plugin for October CMS",
+    "require": {
+        "php": "^8.0",
+        "composer/installers": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Stheme\\Turnstile\\": ""
+        }
+    }
+}

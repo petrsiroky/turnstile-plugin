@@ -1,0 +1,52 @@
+tabs:
+    fields:
+        enabled:
+            label: Enable Cloudflare Turnstile
+            type: switch
+            default: true
+            comment: Enables or disables Cloudflare Turnstile verification on the site.
+            tab: General
+        site_key:
+            label: Site Key (Public Key)
+            type: text
+            placeholder: 0x4AAAAAA...
+            comment: Get from Cloudflare Console (Turnstile section).
+            tab: General
+        secret_key:
+            label: Secret Key (Private Key)
+            type: sensitive
+            placeholder: 0x4AAAAAA...
+            comment: Get from Cloudflare Console (Turnstile section). Keep this key secret.
+            tab: General
+        theme:
+            label: Widget Theme
+            type: dropdown
+            default: auto
+            options: getThemeOptions
+            comment: Specifies the color theme of the widget.
+            tab: General
+        size:
+            label: Widget Size
+            type: dropdown
+            default: normal
+            options: getSizeOptions
+            comment: Specifies the size of the widget on the page.
+            tab: General
+        custom_error_message:
+            label: Custom Validation Error Message
+            type: text
+            placeholder: Cloudflare Turnstile verification failed. Please try again.
+            comment: Custom error message displayed when Turnstile verification fails. Leave empty for default.
+            tab: Behavior & Security
+        bypass_admins:
+            label: Bypass for Backend Administrators
+            type: switch
+            default: false
+            comment: Skip Turnstile verification for logged-in backend admin users.
+            tab: Behavior & Security
+        whitelisted_ips:
+            label: Whitelisted IP Addresses
+            type: textarea
+            placeholder: "127.0.0.1\n192.168.1.1"
+            comment: Enter IP addresses (one per line or comma-separated) that bypass Turnstile verification.
+            tab: Behavior & Security
