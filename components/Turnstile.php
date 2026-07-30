@@ -88,10 +88,6 @@ class Turnstile extends ComponentBase
         $this->page['turnstileErrorCallback'] = (string) $this->property('errorCallback', '');
 
         if ($this->page['turnstileEnabled'] && !empty($this->page['turnstileSiteKey'])) {
-            $this->addJs('https://challenges.cloudflare.com/turnstile/v0/api.js', [
-                'async' => true,
-                'defer' => true,
-            ]);
             $this->addJs('assets/js/turnstile-reset.js');
         }
     }

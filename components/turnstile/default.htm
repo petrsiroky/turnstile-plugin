@@ -8,6 +8,19 @@
          {% if turnstileExpiredCallback %}data-expired-callback="{{ turnstileExpiredCallback }}"{% endif %}
          {% if turnstileErrorCallback %}data-error-callback="{{ turnstileErrorCallback }}"{% endif %}>
     </div>
+
+    <script>
+        if (!window.turnstileScriptLoaded) {
+            window.turnstileScriptLoaded = true;
+            if (!document.querySelector('script[src*="challenges.cloudflare.com/turnstile"]')) {
+                var script = document.createElement('script');
+                script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+                script.async = true;
+                script.defer = true;
+                document.head.appendChild(script);
+            }
+        }
+    </script>
 {% elseif turnstileEnabled and not turnstileSiteKey %}
     <!-- Cloudflare Turnstile: Site Key is missing in backend settings -->
 {% endif %}

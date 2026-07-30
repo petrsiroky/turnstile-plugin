@@ -76,7 +76,7 @@ class Plugin extends PluginBase
 
             $turnstileHtml = sprintf(
                 '<div class="cf-turnstile my-3" data-sitekey="%s" data-theme="%s" data-size="%s"></div>' .
-                '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>' .
+                '<script>if(!window.turnstileScriptLoaded){window.turnstileScriptLoaded=true;if(!document.querySelector(\'script[src*="challenges.cloudflare.com/turnstile"]\')){var s=document.createElement("script");s.src="https://challenges.cloudflare.com/turnstile/v0/api.js";s.async=true;s.defer=true;document.head.appendChild(s);}}</script>' .
                 '<script>if(typeof jQuery!=="undefined"){jQuery(document).on("ajaxError ajaxInvalid",function(){if(window.turnstile&&window.turnstile.reset){var w=document.querySelectorAll(".cf-turnstile");w.forEach(function(i){window.turnstile.reset(i);});}});}</script>',
                 e($siteKey),
                 e($theme),
