@@ -90,7 +90,27 @@ class Plugin extends PluginBase
             }
         });
 
-        // Automatically verify Renatio FormBuilder forms before submission
+        // Intercept email sending inside SendEmailMessage::handle() BEFORE emails/logs are sent
+        Event::listen('formBuilder.beforeSendMessage', function ($form, $data) {
+            if (!Settings::get('enabled', true)) {
+                return true;
+            }
+
+            $token = post('cf-turnstile-response') ?: request()->input('cf-turnstile-response');
+
+            if (!TurnstileVerifier::verify($token)) {
+                $errorMessage = Settings::get('custom_error_message')
+                    ?: 'Cloudflare Turnstile anti-bot verification failed. Please complete the Turnstile widget and try again.';
+
+                throw new ValidationException([
+                    'cf-turnstile-response' => $errorMessage,
+                ]);
+            }
+
+            return true;
+        });
+
+        // Additional listener on formSubmitted
         Event::listen('formBuilder.formSubmitted', function (&$form) {
             if (!Settings::get('enabled', true)) {
                 return;
