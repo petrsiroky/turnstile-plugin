@@ -2,4 +2,9 @@
     - 'Initial release of Cloudflare Turnstile plugin for October CMS'
 1.0.2:
     - 'Fix duplicate loading of the Cloudflare Turnstile script and improve frontend initialization'
+1.0.3:
+    - 'Fix event execution priority to block form submission and email sending when Turnstile verification fails'
+    - 'Add request-level token verification cache to prevent duplicate verification errors on success'
+
+
 

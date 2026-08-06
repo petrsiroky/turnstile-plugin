@@ -13,6 +13,11 @@ class TurnstileVerifier
     protected const VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
     /**
+     * In-memory cache for verified tokens during single request lifecycle
+     */
+    protected static array $verifiedTokens = [];
+
+    /**
      * Verifies Turnstile token against Cloudflare API
      *
      * @param string|null $token Response token (cf-turnstile-response)
@@ -48,6 +53,11 @@ class TurnstileVerifier
             return false;
         }
 
+        // Return cached result if token was already verified in this request lifecycle
+        if (isset(self::$verifiedTokens[$token])) {
+            return self::$verifiedTokens[$token];
+        }
+
         try {
             $response = Http::asForm()->post(self::VERIFY_URL, [
                 'secret'   => $secretKey,
@@ -58,7 +68,7 @@ class TurnstileVerifier
             if ($response->successful()) {
                 $data = $response->json();
                 if (isset($data['success']) && $data['success'] === true) {
-                    return true;
+                    return self::$verifiedTokens[$token] = true;
                 }
 
                 $errorCodes = isset($data['error-codes']) && is_array($data['error-codes'])
@@ -66,14 +76,14 @@ class TurnstileVerifier
                     : 'unknown error';
 
                 Log::error("Cloudflare Turnstile verification rejected for IP {$ip}. Error codes: {$errorCodes}");
-                return false;
+                return self::$verifiedTokens[$token] = false;
             }
 
             Log::error('Cloudflare Turnstile API HTTP error: Status ' . $response->status());
-            return false;
+            return self::$verifiedTokens[$token] = false;
         } catch (\Throwable $e) {
             Log::error('Cloudflare Turnstile verification exception: ' . $e->getMessage());
-            return false;
+            return self::$verifiedTokens[$token] = false;
         }
     }
 
