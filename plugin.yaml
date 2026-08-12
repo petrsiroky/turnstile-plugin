@@ -1,0 +1,5 @@
+plugin:
+    name: 'Cloudflare Turnstile'
+    description: 'Protect forms from bots using Cloudflare Turnstile'
+    author: 'Petr Široký'
+    icon: icon-shield
